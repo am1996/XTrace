@@ -36,4 +36,4 @@ class SerialNumberPool(models.Model):
     generated_by = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return f"Pool {self.pool_id} for {self.product_gtin}"
+        return f"Pool {self.pool_id}"
