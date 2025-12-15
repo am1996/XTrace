@@ -7,7 +7,7 @@ from SerialNumberPool.models import SerialNumberPool
 
 # We keep the generator function
 def generate_alphanumeric_serial(length):
-    ALPHANUMERIC = string.ascii_letters + string.digits
+    ALPHANUMERIC = string.ascii_uppercase + string.digits
     return ''.join(secrets.choice(ALPHANUMERIC) for i in range(length))
 
 def reserve_pool_state_for_bulk(pool_id, quantity):

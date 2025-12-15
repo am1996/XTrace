@@ -1,6 +1,5 @@
 # YourApp/management/commands/bulk_create_optimized.py
 import time
-import random # For basic iteration counter
 from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
 # Adjust import paths as needed
@@ -22,7 +21,7 @@ class Command(BaseCommand):
         TOTAL_RECORDS_TARGET = options['quantity']
         SERIAL_LENGTH = options['length']
         BATCH_SIZE = 5000 
-        MAX_ATTEMPTS = TOTAL_RECORDS_TARGET * 2 # Safety break for generation loop
+        MAX_ATTEMPTS = TOTAL_RECORDS_TARGET * 1 # Safety break for generation loop
         # ---------------------
 
         self.stdout.write(f"Starting optimized bulk creation for pool '{POOL_ID}'.")
@@ -42,7 +41,7 @@ class Command(BaseCommand):
             records_created = 0
             generation_attempts = 0
             
-            self.stdout.write(f"Generating and inserting in batches of {BATCH_SIZE:,}...")
+            self.stdout.write(f"Generating and inserting in batches of {TOTAL_RECORDS_TARGET:,}...")
 
             while records_created < TOTAL_RECORDS_TARGET and generation_attempts < MAX_ATTEMPTS:
                 
@@ -60,8 +59,6 @@ class Command(BaseCommand):
                     full_serial_number=sn_str,
                     pool=pool, 
                     status='ALLOCATED',
-                    # Using a simple counter for description for simplicity
-                    item_description=f"Item {records_created + 1}"
                 )
                 items_to_create.append(item)
 

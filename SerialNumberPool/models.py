@@ -1,3 +1,4 @@
+from uuid import uuid4 
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -23,12 +24,8 @@ class SerialNumberPool(models.Model):
     """
     Defines a block/range of unique serial numbers generated for a specific GTIN.
     """
-    pool_id = models.CharField(max_length=50, unique=True, db_index=True)
+    pool_id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     product_gtin = models.CharField(max_length=14, db_index=True)
-    
-    # Define the range boundary for random generation logic
-    start_serial_number = models.BigIntegerField(help_text="Start boundary for random generation.")
-    end_serial_number = models.BigIntegerField(help_text="End boundary for random generation.")
     
     # Tracking
     total_to_generate = models.IntegerField(help_text="Total requested count of S/Ns.")
