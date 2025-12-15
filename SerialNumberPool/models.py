@@ -25,7 +25,6 @@ class SerialNumberPool(models.Model):
     Defines a block/range of unique serial numbers generated for a specific GTIN.
     """
     pool_id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
-    product_gtin = models.CharField(max_length=14, db_index=True)
     
     # Tracking
     total_to_generate = models.IntegerField(help_text="Total requested count of S/Ns.")
