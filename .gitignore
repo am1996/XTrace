@@ -1,2 +1,58 @@
-*/__pycache__
-*/migrations
+# ----------------------------------------------------------------------
+# 1. Project-Specific Files (Always Ignore)
+# ----------------------------------------------------------------------
+.env
+*.sqlite3
+db.sqlite3
+/local_settings.py # For secrets that override settings.py
+
+# ----------------------------------------------------------------------
+# 2. Virtual Environment and Dependency Files
+# ----------------------------------------------------------------------
+# Python Virtual Environments
+/venv
+/env
+/ENV
+.venv
+pip-log.txt
+
+# Dependency Management Files (If used)
+# Pipenv
+Pipfile.lock
+
+# Poetry
+poetry.lock
+
+# ----------------------------------------------------------------------
+# 3. Python and IDE Generated Files (Always Ignore)
+# ----------------------------------------------------------------------
+# Compiled Python files
+__pycache__
+*.pyc
+*.pyd
+*.so
+
+# Editor/IDE files (VS Code, PyCharm)
+.idea/
+.vscode/
+
+# Jupyter Notebook files
+.ipynb_checkpoints
+
+# ----------------------------------------------------------------------
+# 4. Django Specific Generated Files
+# ----------------------------------------------------------------------
+# Django media and static files (often stored on S3/CDN in production)
+/static_collected/
+/media/
+
+# Migration internal files (keep the actual 00XX_*.py files!)
+*/migrations/__init__.pyc 
+*/migrations/__pycache__/ 
+
+# ----------------------------------------------------------------------
+# 5. Backup and Temporary Files
+# ----------------------------------------------------------------------
+*~
+*.bak
+*.swp
