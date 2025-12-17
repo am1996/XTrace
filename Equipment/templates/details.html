@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Equipment Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>{{ equipment.name }}</h1>
+            <hr>
+            
+            <div class="card">
+                <div class="card-body">
+                    <p><strong>Equipment ID:</strong> {{ equipment.id }}</p>
+                    <p><strong>Type:</strong> {{ equipment.type }}</p>
+                    <p><strong>Model:</strong> {{ equipment.model }}</p>
+                    <p><strong>Serial Number:</strong> {{ equipment.serial_number }}</p>
+                    <p><strong>Status:</strong> 
+                        <span class="badge {% if equipment.status == 'active' %}bg-success{% else %}bg-danger{% endif %}">
+                            {{ equipment.get_status_display }}
+                        </span>
+                    </p>
+                    <p><strong>Location:</strong> {{ equipment.location }}</p>
+                    <p><strong>Description:</strong> {{ equipment.description }}</p>
+                    <p><strong>Date Added:</strong> {{ equipment.date_added|date:"Y-m-d" }}</p>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <a href="{% url 'equipment:equipment_update' equipment.id %}" class="btn btn-warning">Edit</a>
+                <a href="{% url 'equipment:equipment_delete' equipment.id %}" class="btn btn-danger">Delete</a>
+                <a href="{% url 'equipment:equipment_list' %}" class="btn btn-secondary">Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

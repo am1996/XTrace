@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Confirm Delete Equipment{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0">Confirm Delete</h4>
+        </div>
+        <div class="card-body">
+            <p class="text-muted">Are you sure you want to delete this equipment?</p>
+            
+            <div class="alert alert-warning">
+                <strong>Equipment:</strong> {{ equipment.name }}<br>
+                <strong>Model:</strong> {{ equipment.model }}<br>
+                <strong>Serial Number:</strong> {{ equipment.serial_number }}
+            </div>
+
+            <p class="text-danger"><strong>This action cannot be undone.</strong></p>
+
+            <form method="post" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete Equipment</button>
+                <a href="{% url 'equipment:equipment_details' equipment.id %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

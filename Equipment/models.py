@@ -1,3 +1,4 @@
+import datetime
 from auditlog.registry import auditlog
 from django.db import models
 
@@ -15,11 +16,17 @@ class Equipment(models.Model):
     location = models.CharField(max_length=255, verbose_name="Location")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         verbose_name = "Equipment"
         verbose_name_plural = "Equipments"
 
+    def delete(self, **kwargs):
+        self.deleted_at = datetime.datetime.now()
+        self.save()
+        return True
+    
     def __str__(self):
         return self.name
     
