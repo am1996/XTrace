@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>batch</h1>
+<ul>
+    {% for batch in batches %}
+    <li>
+        <a href="{% url 'batch:batch_details' batch.id %}">{{ batch.name }}</a>
+    </li>
+    {% empty %}
+    <li>No batch batch available.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'batch:batch_create' %}">Create New batch</a>
+{% endblock %}

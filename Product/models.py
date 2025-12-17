@@ -11,7 +11,7 @@ class Product(models.Model):
     primary_gtin = models.CharField(max_length=14, unique=True, verbose_name=_("Primary GTIN"))
     secondary_gtin = models.CharField(max_length=14, blank=True, null=True, verbose_name=_("Secondary GTIN"))
     tertiary_gtin = models.CharField(max_length=14, blank=True, null=True, verbose_name=_("Tertiary GTIN"))
-    equipment = models.ForeignKey("Equipment.Equipment", on_delete=models.CASCADE, verbose_name=_("Equipment"))
+    equipment = models.ForeignKey("Equipment.Equipment", on_delete=models.CASCADE, verbose_name=_("Equipment"), related_name="products", null=True, blank=True)
     manufactured_at = models.DateField(verbose_name=_("Manufactured At")) 
     shelf_life_days = models.PositiveIntegerField()
     unit = models.CharField(max_length=50, verbose_name=_("Unit of Measurement"),choices=[
