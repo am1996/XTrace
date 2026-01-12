@@ -42,7 +42,10 @@ INSTALLED_APPS = [
     'Batch',
     'Equipment',
     'SerialNumber',
-    'SerialNumberPool'
+    'SerialNumberPool',
+    'StorageLocation',
+    'EPCISEvent',
+    
 ]
 
 MIDDLEWARE = [
