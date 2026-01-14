@@ -47,14 +47,21 @@ class EPCISEvent(models.Model):
         
         # 2. Build the event structure
         event_data = {
-            "type": self.event_type,
+            "type": self.event_type, # e.g., "ObjectEvent"
             "eventID": f"urn:uuid:{self.event_id}",
             "eventTime": self.event_time.isoformat(),
             "eventTimeZoneOffset": self.event_timezone_offset,
-            "action": self.action,
-            "bizStep": f"https://ref.gs1.org/cbv/bizstep/{self.biz_step}",
-            "disposition": f"https://ref.gs1.org/cbv/disp/{self.disposition}",
+            "action": self.action, # Must be OBSERVE, ADD, or DELETE
+            
+            # 'Why' - Using URNs to ensure no 404 errors
+            "bizStep": f"urn:epcglobal:cbv:bizstep:{self.biz_step}",
+            "disposition": f"urn:epcglobal:cbv:disp:{self.disposition}",
+            
+            # 'What' - Standard EPC list
             "epcList": [epc.strip() for epc in self.epc_list.split(',')],
+            
+            # 'Where' - SGLN (Global Location Number) 
+            # Using the GS1 Digital Link URI format for locations
             "readPoint": {"id": f"https://id.gs1.org/414/{self.read_point}"},
             "bizLocation": {"id": f"https://id.gs1.org/414/{self.biz_location}"}
         }
