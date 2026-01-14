@@ -1,32 +1,125 @@
+import uuid
+import json
 from django.db import models
+from django.utils import timezone
+import xml.etree.ElementTree as ET
+from xml.dom import minidom
 
-from Product.models import Product
-from django.utils.translation import gettext_lazy as _
-
-# Create your models here.
 class EPCISEvent(models.Model):
+    # EPCIS 2.0 Event Types
     EVENT_TYPES = [
-        ('ObjectEvent', 'Object Event'), # Observation, packing, etc.
-        ('AggregationEvent', 'Aggregation'), # Putting items in a box
-        ('TransactionEvent', 'Transaction'), # Change of ownership
+        ('ObjectEvent', 'Object Event'),
+        ('AggregationEvent', 'Aggregation Event'),
+        ('TransactionEvent', 'Transaction Event'),
+        ('TransformationEvent', 'Transformation Event'),
+        ('AssociationEvent', 'Association Event'),
     ]
 
-    event_time = models.DateTimeField(verbose_name=_("When"))
-    event_timezone_offset = models.CharField(max_length=10)
+    # EPCIS Actions
+    ACTIONS = [
+        ('OBSERVE', 'Observe'),
+        ('ADD', 'Add'),      
+        ('DELETE', 'Delete'),  
+    ]
+
+    # Fields
+    event_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    event_type = models.CharField(max_length=50, choices=EVENT_TYPES, default='ObjectEvent')
+    event_time = models.DateTimeField(default=timezone.now)
+    event_timezone_offset = models.CharField(max_length=6, default="+00:00")
     
-    # What
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    epc_list = models.TextField(help_text="List of EPCs involved in the event, separated by commas.")
+    action = models.CharField(max_length=10, choices=ACTIONS, default='OBSERVE')
+    biz_step = models.CharField(max_length=100)  # e.g., 'receiving', 'shipping'
+    disposition = models.CharField(max_length=100) # e.g., 'in_transit'
+    
+    # Identifiers (Should be stored as GS1 Digital Links or URNs)
+    read_point = models.CharField(max_length=255, help_text="SGLN for the read point")
+    biz_location = models.CharField(max_length=255, help_text="SGLN for the business location")
+    
+    # EPCs should be stored in a way that allows list conversion
+    epc_list = models.TextField(help_text="Comma-separated GS1 Digital Links or URNs")
 
-    # Where
-    read_point = models.CharField(max_length=255) # GLN (Global Location Number)
-    biz_location = models.ForeignKey("StorageLocation.StorageLocation", on_delete=models.PROTECT, verbose_name=_("Business Location"))
+    def get_epcis_json(self):
+        """Generates a strictly compliant EPCIS 2.0 JSON-LD document."""
+        
+        # 1. Define the context (Required for JSON-LD)
+        context = "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"
+        
+        # 2. Build the event structure
+        event_data = {
+            "type": self.event_type,
+            "eventID": f"urn:uuid:{self.event_id}",
+            "eventTime": self.event_time.isoformat(),
+            "eventTimeZoneOffset": self.event_timezone_offset,
+            "action": self.action,
+            "bizStep": f"https://ref.gs1.org/cbv/bizstep/{self.biz_step}",
+            "disposition": f"https://ref.gs1.org/cbv/disp/{self.disposition}",
+            "epcList": [epc.strip() for epc in self.epc_list.split(',')],
+            "readPoint": {"id": f"https://id.gs1.org/414/{self.read_point}"},
+            "bizLocation": {"id": f"https://id.gs1.org/414/{self.biz_location}"}
+        }
 
-    # Why
-    biz_step = models.CharField(max_length=100, choices=[
-        ('receiving', 'Receiving'),
-        ('picking', 'Picking'),
-        ('shipping', 'Shipping'),
-        ('commissioning', 'Commissioning'),
-    ])
-    disposition = models.CharField(max_length=100) # e.g., "in_transit", "sellable"
+        # 3. Wrap in an EPCISDocument (The compliant envelope)
+        epcis_document = {
+            "@context": context,
+            "type": "EPCISDocument",
+            "schemaVersion": "2.0",
+            "creationDate": timezone.now().isoformat(),
+            "epcisBody": {
+                "eventList": [event_data]
+            }
+        }
+        
+        return json.dumps(epcis_document, indent=4)
+    def to_epcis_xml(self):
+        """Generates a strictly compliant EPCIS 2.0 XML Document."""
+        
+        # 1. Define Namespaces
+        NS_EPCIS = "urn:epcglobal:epcis:xsd:2"
+        NS_XSI = "http://www.w3.org/2001/XMLSchema-instance"
+        NS_CBVMDA = "urn:epcglobal:cbv:mda"
+        
+        ET.register_namespace('epcis', NS_EPCIS)
+        ET.register_namespace('xsi', NS_XSI)
+        
+        # 2. Root: EPCISDocument
+        root = ET.Element(f"{{{NS_EPCIS}}}EPCISDocument", {
+            "schemaVersion": "2.0",
+            "creationDate": timezone.now().isoformat(),
+            f"{{{NS_XSI}}}schemaLocation": f"{NS_EPCIS} http://www.gs1.org/standards/epcis/EPCIS_2_0.xsd"
+        })
+
+        # 3. EPCISBody and EventList
+        body = ET.SubElement(root, "EPCISBody")
+        event_list = ET.SubElement(body, "EventList")
+        
+        # 4. The Specific Event (ObjectEvent, AggregationEvent, etc.)
+        event = ET.SubElement(event_list, self.event_type)
+        
+        # Required v2 Elements
+        ET.SubElement(event, "eventTime").text = self.event_time.isoformat()
+        ET.SubElement(event, "eventTimeZoneOffset").text = self.event_timezone_offset
+        ET.SubElement(event, "eventID").text = f"urn:uuid:{self.event_id}"
+        
+        # What: epcList
+        epc_list_container = ET.SubElement(event, "epcList")
+        for epc in self.epc_list.split(','):
+            ET.SubElement(epc_list_container, "epc").text = epc.strip()
+        
+        # Action (Required)
+        ET.SubElement(event, "action").text = self.action
+        
+        # Why: bizStep and disposition (Using CBV 2.0 URIs)
+        ET.SubElement(event, "bizStep").text = f"https://ref.gs1.org/cbv/bizstep/{self.biz_step}"
+        ET.SubElement(event, "disposition").text = f"https://ref.gs1.org/cbv/disp/{self.disposition}"
+        
+        # Where: readPoint and bizLocation
+        read_point_id = ET.SubElement(ET.SubElement(event, "readPoint"), "id")
+        read_point_id.text = f"urn:epc:id:sgln:{self.read_point}"
+        
+        biz_loc_id = ET.SubElement(ET.SubElement(event, "bizLocation"), "id")
+        biz_loc_id.text = f"urn:epc:id:sgln:{self.biz_location}"
+
+        # 5. Format and Return
+        xml_str = ET.tostring(root, encoding='utf-8')
+        return minidom.parseString(xml_str).toprettyxml(indent="  ")
