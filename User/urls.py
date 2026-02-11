@@ -5,7 +5,7 @@ from .views import *
 app_name = "user"
 
 urlpatterns = [
-    path('', UserIndex.as_view(), name='user_list'),
+    path('dashboard', UserDashboard.as_view(), name='user_dashboard'),
     path('<int:pk>/', UserDetails.as_view(), name='user_details'),
     path('<int:pk>/edit', UserUpdate.as_view(), name='user_update'),
     path('<int:pk>/delete', UserDelete.as_view(), name='user_delete'),
