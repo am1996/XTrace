@@ -5,5 +5,6 @@ urlpatterns = [
     # web
     path('web/batch/', include('Batch.urls', namespace='batch')),
     path('web/equipment/', include('Equipment.urls', namespace='equipment')),
+    path('web/user/', include('User.urls', namespace='user')),
     # API
 ]
