@@ -22,6 +22,9 @@ class UserDelete(LoginRequiredMixin, DeleteView):
     model = User
     template_name = 'User/delete.html'
     success_url = reverse_lazy('user:user_dashboard')
+    def test_func(self):
+        obj = self.get_object()
+        return obj == self.request.user
 
 # Logged in users can not access this view, and will be redirected to the dashboard
 

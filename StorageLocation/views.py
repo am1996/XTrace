@@ -38,4 +38,8 @@ class StorageLocationDelete(DeleteView):
     template_name = "StorageLocation/storage_location_confirm_delete.html"
     success_url = '/web/storage_location/'
 
+    def test_func(self):
+        obj = self.get_object()
+        return obj.user == self.request.user
+
 
