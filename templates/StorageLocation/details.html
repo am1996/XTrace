@@ -1,0 +1,11 @@
+{% extends "../base.html" %}
+{# Storage Location details #}
+
+{% block content %}
+    <h1>Storage Location Details</h1>
+    <p>Name: {{ storage_location.name }}</p>
+    <p>Description: {{ storage_location.description }}</p>
+    <a href="{% url 'storage_location:storage_location_update' storage_location.pk %}">Edit</a>
+    <a href="{% url 'storage_location:storage_location_delete' storage_location.pk %}">Delete</a>
+    <a href="{% url 'storage_location:storage_location_index' %}">Back to List</a>
+{% endblock %}

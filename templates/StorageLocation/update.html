@@ -1,0 +1,11 @@
+{% extends "../base.html" %}
+{# Storage Location Update #}
+{% block content %}
+    <h1>Update Storage Location</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+    <a href="{% url 'storage_location:storage_location_details' storage_location.pk %}">Cancel</a>
+{% endblock %}

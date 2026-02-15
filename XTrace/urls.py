@@ -6,5 +6,6 @@ urlpatterns = [
     path('web/batch/', include('Batch.urls', namespace='batch')),
     path('web/equipment/', include('Equipment.urls', namespace='equipment')),
     path('web/user/', include('User.urls', namespace='user')),
+    path('web/storage_location/', include('StorageLocation.urls', namespace='storage_location')),
     # API
 ]
