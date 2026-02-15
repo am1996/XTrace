@@ -34,6 +34,7 @@ class StorageLocation(models.Model):
     is_active = models.BooleanField(default=True)
     created_by = models.ForeignKey('auth.User', on_delete=models.SET_NULL, null=True, blank=True, related_name='storage_locations_created')
     created_at = models.DateTimeField(auto_now_add=True)
+    
     class Meta:
         verbose_name = _("Storage Location")
         verbose_name_plural = _("Storage Locations")

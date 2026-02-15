@@ -7,5 +7,6 @@ urlpatterns = [
     path('web/equipment/', include('Equipment.urls', namespace='equipment')),
     path('web/user/', include('User.urls', namespace='user')),
     path('web/storage_location/', include('StorageLocation.urls', namespace='storage_location')),
+    path('web/serialnumberpool/', include('SerialNumberPool.urls', namespace='serialnumberpool')),
     # API
 ]

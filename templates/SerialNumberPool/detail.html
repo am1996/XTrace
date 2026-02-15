@@ -1,0 +1,25 @@
+{% extends "../base.html" %}
+
+{# Detail view for SerialNumberPool #}
+{% block content %}
+<div class="container mt-4">
+    <h2>Serial Number Pool Details</h2>
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ serial_number_pool.name }}</h5>
+            <p class="card-text"><strong>Description:</strong> {{ serial_number_pool.description }}</p>
+            <p class="card-text"><strong>Created At:</strong> {{ serial_number_pool.created_at }}</p>
+            <p class="card-text"><strong>Updated At:</strong> {{ serial_number_pool.updated_at }}</p>
+            <a href="{% url 'serialnumberpool:edit' serial_number_pool.id %}" class="btn btn-primary">Edit</a>
+            <a href="{% url 'serialnumberpool:delete' serial_number_pool.id %}" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+    <h3>Serial Numbers in this Pool</h3>
+    <ul class="list-group">
+        {% for serial_number in serial_numbers %}
+        <li class="list-group-item">{{ serial_number.value }}</li>
+        {% empty %}
+        <li class="list-group-item">No serial numbers in this pool.</li>
+        {% endfor %}
+    </ul>
+</div>
