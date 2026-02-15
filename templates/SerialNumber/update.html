@@ -1,0 +1,11 @@
+{% extends "../base.html" %}
+
+{# update serial number #}
+{% block content %}
+    <h1>Update Serial Number</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update</button>
+    </form>
+{% endblock %}

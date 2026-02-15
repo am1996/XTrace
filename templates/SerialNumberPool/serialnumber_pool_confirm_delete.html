@@ -1,0 +1,11 @@
+{% extends "../base.html" %}
+{# delete storage location confirmation #}
+{% block content %}
+    <h1>Confirm Delete Storage Location</h1>
+    <p>Are you sure you want to delete "{{ storage_location.name }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes, Delete</button>
+        <a href="{% url 'storage_location:storage_location_details' storage_location.pk %}">Cancel</a>
+    </form>
+{% endblock %}

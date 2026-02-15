@@ -1,0 +1,11 @@
+{% extends "../base.html" %}
+{# delete storage location confirmation #}
+{% block content %}
+    <h1>Confirm Delete Serial Number</h1>
+    <p>Are you sure you want to delete "{{ serialnumber.name }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes, Delete</button>
+        <a href="{% url 'serialnumber:serialnumber_details' serialnumber.pk %}">Cancel</a>
+    </form>
+{% endblock %}

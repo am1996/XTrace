@@ -29,5 +29,5 @@ class SerialNumberPoolUpdateView(UpdateView):
 
 class SerialNumberPoolDeleteView(DeleteView):
     model = SerialNumberPool
-    template_name = 'SerialNumberPool/delete.html'
+    template_name = 'SerialNumberPool/serial_number_confirm_delete.html.html'
     success_url = reverse_lazy('serialnumberpool:list')

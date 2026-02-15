@@ -1,0 +1,15 @@
+{% extends "../base.html" %}
+
+{% block content %}
+    <h1>Serial Number List</h1>
+    <a href="{% url 'serialnumber:serialnumber_create' %}">Create New Serial Number</a>
+    <ul>
+        {% for serialnumber in serialnumbers %}
+            <li>
+                <a href="{% url 'serialnumber:serialnumber_detail' serialnumber.pk %}">{{ serialnumber }}</a>
+                <a href="{% url 'serialnumber:serialnumber_update' serialnumber.pk %}">Edit</a>
+                <a href="{% url 'serialnumber:serialnumber_delete' serialnumber.pk %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
