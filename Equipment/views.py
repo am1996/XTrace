@@ -6,7 +6,7 @@ from Equipment.models import Equipment
 
 class EquipmentIndex(ListView):
     model = Equipment
-    template_name = "index.html"
+    template_name = "Equipment/index.html"
     def get_context_data(self, **kwargs) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context["equipment_list"] = Equipment.objects.filter(deleted_at__isnull=True)
@@ -15,21 +15,21 @@ class EquipmentIndex(ListView):
 class EquipmentDetails(DetailView):
     model = Equipment
     context_object_name = "equipment"
-    template_name = "details.html"
+    template_name = "Equipment/details.html"
 
 class EquipmentUpdate(UpdateView):
     model = Equipment
     fields = ['name', 'serial_number', 'manufacturer', 'mac_address', 'ip_address', 'plant_name', 'plant_gln', 'location']
-    template_name = "update.html"
+    template_name = "Equipment/update.html"
     success_url = '/web/equipment/' 
 
 class EquipmentCreate(CreateView):
     model = Equipment
     fields = ['name', 'serial_number', 'manufacturer', 'mac_address', 'ip_address', 'plant_name', 'plant_gln', 'location']
-    template_name = "create.html"
+    template_name = "Equipment/create.html"
     success_url = '/web/equipment/'
 
 class EquipmentDelete(DeleteView):
     model = Equipment
-    template_name = "equipment_confirm_delete.html"
+    template_name = "Equipment/equipment_confirm_delete.html"
     success_url = '/web/equipment/'

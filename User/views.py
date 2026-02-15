@@ -63,6 +63,6 @@ class UserDetails(LoginRequiredMixin, DetailView):
 class UserUpdate(LoginRequiredMixin, UpdateView):
     model = User
     fields = ['username', 'first_name', 'last_name', 'email']
-    template_name = 'User/update.html'
+    template_name = 'update.html'
     success_url = reverse_lazy('user:user_list')
     context_object_name = 'user'
