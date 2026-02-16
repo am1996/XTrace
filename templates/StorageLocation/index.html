@@ -1,15 +1,56 @@
 {% extends "../base.html" %}
+{% block title %}Storage Locations - XTrace{% endblock %}
 
 {% block content %}
-    <h1>Storage Location List</h1>
-    <a href="{% url 'storage_location:storage_location_create' %}">Create New Storage Location</a>
-    <ul>
-        {% for storage_location in storage_location_list %}
-            <li>
-                <a href="{% url 'storage_location:storage_location_details' storage_location.pk %}">{{ storage_location.name }}</a>
-                <a href="{% url 'storage_location:storage_location_update' storage_location.pk %}">Edit</a>
-                <a href="{% url 'storage_location:storage_location_delete' storage_location.pk %}">Delete</a>
-            </li>
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1>Storage Locations</h1>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="{% url 'storage_location:storage_location_create' %}" class="btn btn-primary btn-lg">
+            <span style="font-size: 1.2rem;">➕</span> New Location
+        </a>
+    </div>
+</div>
+
+{% if storage_location_list %}
+    <div class="row">
+        {% for location in storage_location_list %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">📍 {{ location.name }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted mb-3">{{ location.description }}</p>
+                        <dl class="row small">
+                            <dt class="col-sm-6">Floor:</dt>
+                            <dd class="col-sm-6">{{ location.floor|default:"N/A" }}</dd>
+                            
+                            <dt class="col-sm-6">Zone:</dt>
+                            <dd class="col-sm-6">{{ location.zone|default:"N/A" }}</dd>
+                            
+                            <dt class="col-sm-6">Capacity:</dt>
+                            <dd class="col-sm-6">{{ location.capacity|default:"Unlimited" }}</dd>
+                        </dl>
+                    </div>
+                    <div class="card-footer bg-light">
+                        <a href="{% url 'storage_location:storage_location_details' location.pk %}" class="btn btn-primary btn-sm">View</a>
+                        <a href="{% url 'storage_location:storage_location_update' location.pk %}" class="btn btn-info btn-sm">Edit</a>
+                        <a href="{% url 'storage_location:storage_location_delete' location.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
-    </ul>
+    </div>
+{% else %}
+    <div class="empty-state card">
+        <div class="card-body">
+            <div class="empty-state-icon">📦</div>
+            <h5>No Storage Locations Available</h5>
+            <p class="text-muted">Get started by creating your first location.</p>
+            <a href="{% url 'storage_location:storage_location_create' %}" class="btn btn-primary mt-3">Create Location</a>
+        </div>
+    </div>
+{% endif %}
 {% endblock %}

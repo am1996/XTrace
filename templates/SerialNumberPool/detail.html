@@ -1,25 +1,77 @@
 {% extends "../base.html" %}
+{% block title %}{{ serial_number_pool.name }} - XTrace{% endblock %}
 
-{# Detail view for SerialNumberPool #}
 {% block content %}
-<div class="container mt-4">
-    <h2>Serial Number Pool Details</h2>
-    <div class="card mb-3">
-        <div class="card-body">
-            <h5 class="card-title">{{ serial_number_pool.name }}</h5>
-            <p class="card-text"><strong>Description:</strong> {{ serial_number_pool.description }}</p>
-            <p class="card-text"><strong>Created At:</strong> {{ serial_number_pool.created_at }}</p>
-            <p class="card-text"><strong>Updated At:</strong> {{ serial_number_pool.updated_at }}</p>
-            <a href="{% url 'serialnumberpool:edit' serial_number_pool.id %}" class="btn btn-primary">Edit</a>
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1>{{ serial_number_pool.name }}</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Pool Details</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Name:</dt>
+                    <dd class="col-sm-8">{{ serial_number_pool.name }}</dd>
+
+                    <dt class="col-sm-4">Description:</dt>
+                    <dd class="col-sm-8">{{ serial_number_pool.description|default:"No description" }}</dd>
+                    
+                    <dt class="col-sm-4">Start Range:</dt>
+                    <dd class="col-sm-8">{{ serial_number_pool.start_range }}</dd>
+                    
+                    <dt class="col-sm-4">End Range:</dt>
+                    <dd class="col-sm-8">{{ serial_number_pool.end_range }}</dd>
+
+                    <dt class="col-sm-4">Created:</dt>
+                    <dd class="col-sm-8">{{ serial_number_pool.created_at|date:"M d, Y" }}</dd>
+
+                    <dt class="col-sm-4">Updated:</dt>
+                    <dd class="col-sm-8">{{ serial_number_pool.updated_at|date:"M d, Y" }}</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Serial Numbers in Pool</h5>
+            </div>
+            <div class="card-body">
+                {% if serial_numbers %}
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Serial Number</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for serial_number in serial_numbers %}
+                                    <tr>
+                                        <td><code>{{ serial_number.value }}</code></td>
+                                        <td><span class="badge bg-success">Active</span></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted mb-0">No serial numbers in this pool yet.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+            <a href="{% url 'serialnumberpool:update' serial_number_pool.id %}" class="btn btn-info">Edit</a>
             <a href="{% url 'serialnumberpool:delete' serial_number_pool.id %}" class="btn btn-danger">Delete</a>
+            <a href="{% url 'serialnumberpool:list' %}" class="btn btn-secondary">Back to List</a>
         </div>
     </div>
-    <h3>Serial Numbers in this Pool</h3>
-    <ul class="list-group">
-        {% for serial_number in serial_numbers %}
-        <li class="list-group-item">{{ serial_number.value }}</li>
-        {% empty %}
-        <li class="list-group-item">No serial numbers in this pool.</li>
-        {% endfor %}
-    </ul>
 </div>
+{% endblock %}

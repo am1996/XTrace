@@ -1,13 +1,27 @@
 {% extends "../base.html" %}
+{% block title %}Delete Account - XTrace{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h2>Delete Account</h2>
-    <p>Are you sure you want to delete your account? This action cannot be undone.</p>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Delete Account</button>
-        <a href="{% url 'user_details' %}" class="btn btn-secondary">Cancel</a>
-    </form>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">⚠️ Delete Account</h4>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-4">Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently deleted.</p>
+                
+                <div class="alert alert-danger" role="alert">
+                    <strong>⚠️ Warning:</strong> This will delete your account and all associated data.
+                </div>
+
+                <form method="post" class="d-flex gap-2 justify-content-end mt-4">
+                    {% csrf_token %}
+                    <a href="{% url 'user:details' user.pk %}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-danger">Delete Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -1,15 +1,77 @@
 {% extends "../base.html" %}
+{% block title %}Serial Numbers - XTrace{% endblock %}
 
 {% block content %}
-    <h1>Serial Number List</h1>
-    <a href="{% url 'serialnumber:serialnumber_create' %}">Create New Serial Number</a>
-    <ul>
-        {% for serialnumber in serialnumbers %}
-            <li>
-                <a href="{% url 'serialnumber:serialnumber_detail' serialnumber.pk %}">{{ serialnumber }}</a>
-                <a href="{% url 'serialnumber:serialnumber_update' serialnumber.pk %}">Edit</a>
-                <a href="{% url 'serialnumber:serialnumber_delete' serialnumber.pk %}">Delete</a>
-            </li>
-        {% endfor %}
-    </ul>
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1>Serial Numbers</h1>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="{% url 'serialnumber:serialnumber_create' %}" class="btn btn-primary btn-lg">
+            <span style="font-size: 1.2rem;">➕</span> New Serial Number
+        </a>
+    </div>
+</div>
+
+{% if serialnumbers %}
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead>
+                    <tr>
+                        <th>Serial Number</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for serialnumber in serialnumbers %}
+                        <tr>
+                            <td>
+                                <strong>{{ serialnumber }}</strong>
+                            </td>
+                            <td>
+                                <span class="badge bg-success">Active</span>
+                            </td>
+                            <td class="text-muted">{{ serialnumber.created_at|date:"M d, Y" }}</td>
+                            <td class="text-end">
+                                <div class="action-links justify-content-end">
+                                    <a href="{% url 'serialnumber:serialnumber_detail' serialnumber.pk %}" class="btn btn-primary btn-sm">View</a>
+                                    <a href="{% url 'serialnumber:serialnumber_update' serialnumber.pk %}" class="btn btn-info btn-sm">Edit</a>
+                                    <a href="{% url 'serialnumber:serialnumber_delete' serialnumber.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% else %}
+    <div class="empty-state card">
+        <div class="card-body">
+            <div class="empty-state-icon">🔢</div>
+            <h5>No Serial Numbers Available</h5>
+            <p class="text-muted">Get started by creating your first serial number.</p>
+            <a href="{% url 'serialnumber:serialnumber_create' %}" class="btn btn-primary mt-3">Create Serial Number</a>
+        </div>
+    </div>
+{% endif %}
+
+<style>
+    .action-links {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .table tbody tr {
+        transition: all 0.3s ease;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+</style>
 {% endblock %}

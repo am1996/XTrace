@@ -1,11 +1,27 @@
 {% extends "../base.html" %}
-{# delete storage location confirmation #}
+{% block title %}Confirm Delete Serial Number Pool - XTrace{% endblock %}
+
 {% block content %}
-    <h1>Confirm Delete Storage Location</h1>
-    <p>Are you sure you want to delete "{{ storage_location.name }}"?</p>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Yes, Delete</button>
-        <a href="{% url 'storage_location:storage_location_details' storage_location.pk %}">Cancel</a>
-    </form>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">⚠️ Confirm Delete</h4>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-4">Are you sure you want to delete this serial number pool? This action cannot be undone.</p>
+                
+                <div class="alert alert-warning" role="alert">
+                    <strong>Pool:</strong> {{ serial_number_pool.name }}
+                </div>
+
+                <form method="post" class="d-flex gap-2 justify-content-end mt-4">
+                    {% csrf_token %}
+                    <a href="{% url 'serialnumberpool:detail' serial_number_pool.id %}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-danger">Delete Pool</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,11 +1,49 @@
 {% extends "../base.html" %}
-{# Storage Location details #}
+{% block title %}{{ storage_location.name }} - XTrace{% endblock %}
 
 {% block content %}
-    <h1>Storage Location Details</h1>
-    <p>Name: {{ storage_location.name }}</p>
-    <p>Description: {{ storage_location.description }}</p>
-    <a href="{% url 'storage_location:storage_location_update' storage_location.pk %}">Edit</a>
-    <a href="{% url 'storage_location:storage_location_delete' storage_location.pk %}">Delete</a>
-    <a href="{% url 'storage_location:storage_location_index' %}">Back to List</a>
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1>{{ storage_location.name }}</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">📍 Location Details</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Name:</dt>
+                    <dd class="col-sm-8">{{ storage_location.name }}</dd>
+
+                    <dt class="col-sm-4">Description:</dt>
+                    <dd class="col-sm-8">{{ storage_location.description|default:"No description" }}</dd>
+
+                    <dt class="col-sm-4">Floor:</dt>
+                    <dd class="col-sm-8">{{ storage_location.floor|default:"N/A" }}</dd>
+
+                    <dt class="col-sm-4">Zone:</dt>
+                    <dd class="col-sm-8">{{ storage_location.zone|default:"N/A" }}</dd>
+
+                    <dt class="col-sm-4">Capacity:</dt>
+                    <dd class="col-sm-8">{{ storage_location.capacity|default:"Unlimited" }}</dd>
+                    
+                    {% if storage_location.created_at %}
+                        <dt class="col-sm-4">Created:</dt>
+                        <dd class="col-sm-8">{{ storage_location.created_at|date:"M d, Y" }}</dd>
+                    {% endif %}
+                </dl>
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+            <a href="{% url 'storage_location:storage_location_update' storage_location.pk %}" class="btn btn-info">Edit</a>
+            <a href="{% url 'storage_location:storage_location_delete' storage_location.pk %}" class="btn btn-danger">Delete</a>
+            <a href="{% url 'storage_location:storage_location_index' %}" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

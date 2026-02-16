@@ -1,16 +1,45 @@
 {% extends "../base.html" %}
+{% block title %}Serial Number Details - XTrace{% endblock %}
 
-{# This template displays the details of a specific serial number #}
 {% block content %}
-    <h1>Serial Number Details</h1>
-    <div>
-        <p><strong>Serial Number:</strong> {{ serial_number.serial_number }}</p>
-        <p><strong>Pool:</strong> {{ serial_number.pool.name }}</p>
-        <p><strong>Status:</strong> {{ serial_number.get_status_display }}</p>
-        <p><strong>Created At:</strong> {{ serial_number.created_at }}</p>
-        <p><strong>Updated At:</strong> {{ serial_number.updated_at }}</p>
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1>Serial Number Details</h1>
     </div>
-    <a href="{% url 'serialnumber:serialnumber_update' serial_number.pk %}">Edit</a> |
-    <a href="{% url 'serialnumber:serialnumber_delete' serial_number.pk %}">Delete</a> |
-    <a href="{% url 'serialnumber:serialnumber-list' %}">Back to List</a>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Serial Number:</dt>
+                    <dd class="col-sm-8">
+                        <code class="bg-light p-2 rounded">{{ serial_number.serial_number }}</code>
+                    </dd>
+
+                    <dt class="col-sm-4">Pool:</dt>
+                    <dd class="col-sm-8">{{ serial_number.pool.name }}</dd>
+
+                    <dt class="col-sm-4">Status:</dt>
+                    <dd class="col-sm-8">
+                        <span class="badge bg-success">{{ serial_number.get_status_display }}</span>
+                    </dd>
+
+                    <dt class="col-sm-4">Created:</dt>
+                    <dd class="col-sm-8">{{ serial_number.created_at|date:"M d, Y \a\t g:i A" }}</dd>
+
+                    <dt class="col-sm-4">Updated:</dt>
+                    <dd class="col-sm-8">{{ serial_number.updated_at|date:"M d, Y \a\t g:i A" }}</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+            <a href="{% url 'serialnumber:serialnumber_update' serial_number.pk %}" class="btn btn-info">Edit</a>
+            <a href="{% url 'serialnumber:serialnumber_delete' serial_number.pk %}" class="btn btn-danger">Delete</a>
+            <a href="{% url 'serialnumber:serialnumber_list' %}" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

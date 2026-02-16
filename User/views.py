@@ -1,12 +1,13 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, LogoutView,RedirectURLMixin
-from django.views.generic import CreateView,DetailView, UpdateView, DeleteView
+from django.contrib.auth.views import LoginView, LogoutView, RedirectURLMixin
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required  
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
+from urllib.parse import urlsplit
 # Create your views here.
 
 class UserDashboard(LoginRequiredMixin, DetailView):
@@ -28,7 +29,7 @@ class UserDelete(LoginRequiredMixin, DeleteView):
 
 # Logged in users can not access this view, and will be redirected to the dashboard
 
-class UserLogin(LoginRequiredMixin, LoginView):
+class UserLogin(LoginView):
     next_page = '/'
     template_name = 'User/login.html'
     redirect_authenticated_user = True
@@ -37,7 +38,7 @@ class UserLogin(LoginRequiredMixin, LoginView):
         context['title'] = 'Login'
         return context
 
-class UserLogout(LoginRequiredMixin, LogoutView):
+class UserLogout(LogoutView):
     next_page = 'user:user_login'
 
 

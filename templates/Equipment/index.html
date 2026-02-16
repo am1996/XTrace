@@ -1,14 +1,60 @@
 {% extends 'base.html' %}
+{% block title %}Equipment - XTrace{% endblock %}
+
 {% block content %}
-<h1>Equipment equipment</h1>
-<ul>
-    {% for equipment in equipment_list %}
-    <li>
-        <a href="{% url 'equipment:equipment_details' equipment.id %}">{{ equipment.name }}</a>
-    </li>
-    {% empty %}
-    <li>No equipment equipment available.</li>
-    {% endfor %}
-</ul>
-<a href="{% url 'equipment:equipment_create' %}">Create New equipment</a>
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1>Equipment</h1>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="{% url 'equipment:equipment_create' %}" class="btn btn-primary btn-lg">
+            <span style="font-size: 1.2rem;">➕</span> New Equipment
+        </a>
+    </div>
+</div>
+
+{% if equipment_list %}
+    <div class="row">
+        {% for item in equipment_list %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">{{ item.name }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">{{ item.type }}</p>
+                        <dl class="row">
+                            <dt class="col-sm-5">Model:</dt>
+                            <dd class="col-sm-7">{{ item.model }}</dd>
+                            
+                            <dt class="col-sm-5">Serial:</dt>
+                            <dd class="col-sm-7">{{ item.serial_number }}</dd>
+                            
+                            <dt class="col-sm-5">Status:</dt>
+                            <dd class="col-sm-7">
+                                <span class="badge {% if item.status == 'active' %}bg-success{% else %}bg-warning{% endif %}">
+                                    {{ item.get_status_display }}
+                                </span>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="card-footer bg-light">
+                        <a href="{% url 'equipment:equipment_details' item.id %}" class="btn btn-primary btn-sm">View</a>
+                        <a href="{% url 'equipment:equipment_update' item.id %}" class="btn btn-info btn-sm">Edit</a>
+                        <a href="{% url 'equipment:equipment_delete' item.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state card">
+        <div class="card-body">
+            <div class="empty-state-icon">📦</div>
+            <h5>No Equipment Available</h5>
+            <p class="text-muted">Get started by creating your first equipment.</p>
+            <a href="{% url 'equipment:equipment_create' %}" class="btn btn-primary mt-3">Create Equipment</a>
+        </div>
+    </div>
+{% endif %}
 {% endblock %}
