@@ -1,7 +1,8 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView, RedirectURLMixin
+from django.contrib.auth import logout as auth_logout
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required  
@@ -40,6 +41,16 @@ class UserLogin(LoginView):
 
 class UserLogout(LogoutView):
     next_page = 'user:user_login'
+    
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
+
+def logout_view(request):
+    """Simple logout view that works with GET and POST and redirects to login."""
+    if request.user.is_authenticated:
+        auth_logout(request)
+    return redirect(reverse_lazy('user:login'))
 
 
 class UserRegister(CreateView,RedirectURLMixin):
@@ -67,6 +78,6 @@ class UserDetails(LoginRequiredMixin, DetailView):
 class UserUpdate(LoginRequiredMixin, UpdateView):
     model = User
     fields = ['username', 'first_name', 'last_name', 'email']
-    template_name = 'update.html'
-    success_url = reverse_lazy('user:user_list')
+    template_name = 'User/update.html'
+    success_url = reverse_lazy('user:dashboard')
     context_object_name = 'user'

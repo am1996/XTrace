@@ -14,6 +14,47 @@
             --danger-color: #dc3545;
             --warning-color: #ffc107;
             --info-color: #0dcaf0;
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f0f0f0;
+            --text-primary: #333333;
+            --text-secondary: #6c757d;
+            --text-light: #999999;
+            --border-color: #e0e0e0;
+            --card-bg: #ffffff;
+            --input-bg: #ffffff;
+            --input-border: #e0e0e0;
+            --link-color: #0d6efd;
+            --link-hover: #0b5ed7;
+            --alert-bg: #f8d7da;
+            --alert-text: #842029;
+            --badge-bg: #198754;
+            --badge-text: #ffffff;
+            --table-hover: #f8f9fa;
+            --footer-bg: #667eea;
+            --footer-text: #ffffff;
+        }
+
+        html[data-theme="dark"] {
+            --bg-primary: #0f0f0f;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #2a2a2a;
+            --text-primary: #e8e8e8;
+            --text-secondary: #b0b0b0;
+            --text-light: #808080;
+            --border-color: #333333;
+            --card-bg: #1a1a1a;
+            --input-bg: #252525;
+            --input-border: #404040;
+            --link-color: #6ba3ff;
+            --link-hover: #85b8ff;
+            --alert-bg: #3d2c2e;
+            --alert-text: #f8a8aa;
+            --badge-bg: #2d5a3d;
+            --badge-text: #a8e8c8;
+            --table-hover: #252525;
+            --footer-bg: #1a1a1a;
+            --footer-text: #e8e8e8;
         }
 
         * {
@@ -23,9 +64,10 @@
         }
 
         body {
-            background-color: #f8f9fa;
+            background-color: var(--bg-primary);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #333;
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* Navigation */
@@ -50,6 +92,28 @@
             text-shadow: 0 0 8px rgba(255,255,255,0.5);
         }
 
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            margin-left: 1rem;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255,255,255,0.3);
+            box-shadow: 0 0 8px rgba(255,255,255,0.5);
+        }
+
         /* Main Container */
         .main-content {
             min-height: calc(100vh - 56px);
@@ -58,7 +122,7 @@
 
         /* Headers */
         h1, h2, h3, h4, h5, h6 {
-            color: #2c3e50;
+            color: var(--text-primary);
             font-weight: 600;
             margin-bottom: 1.5rem;
         }
@@ -81,6 +145,8 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             transition: all 0.3s ease;
             margin-bottom: 1.5rem;
+            background-color: var(--card-bg);
+            color: var(--text-primary);
         }
 
         .card:hover {
@@ -98,6 +164,11 @@
 
         .card-body {
             padding: 1.75rem;
+        }
+
+        .card-footer {
+            background-color: var(--bg-secondary) !important;
+            border-top: 1px solid var(--border-color);
         }
 
         /* Buttons */
@@ -179,22 +250,26 @@
 
         /* Forms */
         .form-control, .form-select {
-            border: 2px solid #e0e0e0;
+            border: 2px solid var(--border-color);
             border-radius: 8px;
             padding: 0.75rem;
             transition: all 0.3s ease;
             font-size: 1rem;
+            background-color: var(--input-bg);
+            color: var(--text-primary);
         }
 
         .form-control:focus, .form-select:focus {
             border-color: var(--primary-color);
             box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
             outline: none;
+            background-color: var(--input-bg);
+            color: var(--text-primary);
         }
 
         .form-label {
             font-weight: 600;
-            color: #2c3e50;
+            color: var(--text-primary);
             margin-bottom: 0.75rem;
         }
 
@@ -204,10 +279,11 @@
 
         /* Tables */
         .table {
-            background-color: white;
+            background-color: var(--card-bg);
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            color: var(--text-primary);
         }
 
         .table thead {
@@ -224,7 +300,7 @@
         .table td {
             padding: 1rem;
             vertical-align: middle;
-            border-color: #e0e0e0;
+            border-color: var(--border-color);
         }
 
         .table tbody tr {
@@ -232,20 +308,22 @@
         }
 
         .table tbody tr:hover {
-            background-color: #f8f9fa;
+            background-color: var(--bg-secondary);
         }
 
         /* Lists */
         .list-group-item {
-            border: 1px solid #e0e0e0;
+            border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 1.25rem;
             margin-bottom: 0.75rem;
             transition: all 0.3s ease;
+            background-color: var(--card-bg);
+            color: var(--text-primary);
         }
 
         .list-group-item:hover {
-            background-color: #f8f9fa;
+            background-color: var(--bg-secondary);
             border-color: var(--primary-color);
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
@@ -265,6 +343,34 @@
             border-radius: 8px;
             border: none;
             margin-bottom: 1.5rem;
+            background-color: var(--alert-bg);
+            color: var(--alert-text);
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .alert-danger {
+            background-color: var(--alert-bg);
+            color: var(--alert-text);
+        }
+
+        .alert-warning {
+            background-color: rgba(255, 193, 7, 0.15);
+            color: #856404;
+        }
+
+        html[data-theme="dark"] .alert-warning {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+
+        .alert-success {
+            background-color: rgba(25, 135, 84, 0.1);
+            color: #155724;
+        }
+
+        html[data-theme="dark"] .alert-success {
+            background-color: rgba(25, 135, 84, 0.15);
+            color: #a8e8c8;
         }
 
         /* Badges */
@@ -272,6 +378,28 @@
             padding: 0.5rem 0.75rem;
             border-radius: 20px;
             font-weight: 600;
+            background-color: var(--badge-bg);
+            color: var(--badge-text);
+        }
+
+        .bg-success {
+            background-color: var(--badge-bg) !important;
+            color: var(--badge-text) !important;
+        }
+
+        .bg-danger {
+            background-color: #dc3545 !important;
+            color: white !important;
+        }
+
+        .bg-warning {
+            background-color: #ffc107 !important;
+            color: #000 !important;
+        }
+
+        html[data-theme="dark"] .bg-warning {
+            background-color: #ff9800 !important;
+            color: #000 !important;
         }
 
         /* Action Links */
@@ -290,10 +418,28 @@
             transition: all 0.3s ease;
         }
 
+        /* Text Utilities */
+        .text-muted {
+            color: var(--text-secondary) !important;
+        }
+
+        .text-light {
+            color: var(--text-light) !important;
+        }
+
+        a {
+            color: var(--link-color);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--link-hover);
+        }
+
         /* Footer */
         .footer {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            color: var(--footer-text);
             text-align: center;
             padding: 2rem;
             margin-top: 4rem;
@@ -301,7 +447,7 @@
 
         /* Utility Classes */
         .text-muted {
-            color: #6c757d;
+            color: var(--text-secondary) !important;
         }
 
         .mt-4 {
@@ -316,11 +462,20 @@
             margin-bottom: 2rem;
         }
 
+        /* Code Elements */
+        code {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
         /* Empty State */
         .empty-state {
             text-align: center;
             padding: 3rem 1rem;
-            color: #6c757d;
+            color: var(--text-secondary);
+            background-color: var(--card-bg);
         }
 
         .empty-state-icon {
@@ -369,7 +524,7 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="/web/">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'equipment:equipment_list' %}">Equipment</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'serialnumber:serialnumber_list' %}">Serial Numbers</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'serialnumber:serialnumber-list' %}">Serial Numbers</a></li>
                     <li class="nav-item"><a class="nav-link" href="{% url 'storage_location:storage_location_index' %}">Locations</a></li>
                     {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'user:dashboard' %}">Profile</a></li>
@@ -378,6 +533,9 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'user:login' %}">Login</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'user:register' %}">Register</a></li>
                     {% endif %}
+                    <li class="nav-item">
+                        <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">🌙</button>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -397,6 +555,30 @@
     </footer>
 
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script>
+        // Dark mode toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+        
+        // Load saved theme or default to light
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        htmlElement.setAttribute('data-theme', savedTheme);
+        updateThemeButton(savedTheme);
+        
+        // Theme toggle event
+        themeToggle.addEventListener('click', function() {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+        });
+        
+        function updateThemeButton(theme) {
+            themeToggle.textContent = theme === 'light' ? '🌙' : '☀️';
+        }
+    </script>
     {% block scripts %}
     {% endblock %}
 </body>
