@@ -2,16 +2,20 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # web
+    path('web/', TemplateView.as_view(template_name='home.html'), name='home'),
+    path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('web/batch/', include('Batch.urls', namespace='batch')),
     path('web/equipment/', include('Equipment.urls', namespace='equipment')),
     path('web/user/', include('User.urls', namespace='user')),
     path('web/serialnumber/', include('SerialNumber.urls', namespace='serialnumber')),
     path('web/storage_location/', include('StorageLocation.urls', namespace='storage_location')),
     path('web/serialnumberpool/', include('SerialNumberPool.urls', namespace='serialnumberpool')),
+    path('web/epcis-events/', include('EPCISEvent.urls', namespace='epcis_event')),
     # API
 ]
 

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Batch Details - XTrace{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>{{ batch.batch_number }}</h1>
+            <hr>
+            
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Batch Information</h5>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">Batch Number:</dt>
+                        <dd class="col-sm-8"><strong>{{ batch.batch_number }}</strong></dd>
+                        
+                        <dt class="col-sm-4">Product:</dt>
+                        <dd class="col-sm-8">{{ batch.product.name }}</dd>
+                        
+                        <dt class="col-sm-4">Manufactured At:</dt>
+                        <dd class="col-sm-8">{{ batch.manufactured_at|date:"Y-m-d" }}</dd>
+                        
+                        <dt class="col-sm-4">Expiry Date:</dt>
+                        <dd class="col-sm-8">
+                            <span class="badge {% if batch.expiry_date < now %}bg-danger{% elif batch.expiry_date|add:"-30 days" <= now %}bg-warning{% else %}bg-success{% endif %}">
+                                {{ batch.expiry_date|date:"Y-m-d" }}
+                            </span>
+                        </dd>
+                        
+                        <dt class="col-sm-4">Total Quantity:</dt>
+                        <dd class="col-sm-8"><span class="badge bg-info">{{ batch.quantity }}</span></dd>
+                        
+                        <dt class="col-sm-4">Sampled Quantity:</dt>
+                        <dd class="col-sm-8">{{ batch.sampled_quantity }}</dd>
+                        
+                        <dt class="col-sm-4">Order Number:</dt>
+                        <dd class="col-sm-8">{{ batch.order_number }}</dd>
+                        
+                        <dt class="col-sm-4">Serial Number Pool:</dt>
+                        <dd class="col-sm-8"><a href="{% url 'serialnumberpool:pool_details' batch.serial_pool.id %}">{{ batch.serial_pool.pool_name }}</a></dd>
+                        
+                        {% if batch.batch_description %}
+                            <dt class="col-sm-4">Description:</dt>
+                            <dd class="col-sm-8">{{ batch.batch_description }}</dd>
+                        {% endif %}
+                        
+                        <dt class="col-sm-4">Created At:</dt>
+                        <dd class="col-sm-8">{{ batch.created_at|date:"Y-m-d H:i" }}</dd>
+                        
+                        <dt class="col-sm-4">Updated At:</dt>
+                        <dd class="col-sm-8">{{ batch.updated_at|date:"Y-m-d H:i" }}</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <a href="{% url 'batch:batch_update' batch.id %}" class="btn btn-warning">Edit</a>
+                <a href="{% url 'batch:batch_delete' batch.id %}" class="btn btn-danger">Delete</a>
+                <a href="{% url 'batch:batch_list' %}" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

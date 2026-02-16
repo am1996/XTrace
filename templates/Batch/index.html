@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Batches - XTrace{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1>Batches</h1>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="{% url 'batch:batch_create' %}" class="btn btn-primary btn-lg">
+            <span style="font-size: 1.2rem;">➕</span> New Batch
+        </a>
+    </div>
+</div>
+
+{% if batches %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Batch Number</th>
+                    <th>Product</th>
+                    <th>Manufactured</th>
+                    <th>Expiry Date</th>
+                    <th>Quantity</th>
+                    <th>Sampled</th>
+                    <th>Order Number</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for batch in batches %}
+                    <tr>
+                        <td><strong>{{ batch.batch_number }}</strong></td>
+                        <td>{{ batch.product.name }}</td>
+                        <td>{{ batch.manufactured_at|date:"Y-m-d" }}</td>
+                        <td>
+                            {% if batch.expiry_date %}
+                                <span class="badge {% if batch.expiry_date < now %}bg-danger{% elif batch.expiry_date|add:"-30 days" <= now %}bg-warning{% else %}bg-success{% endif %}">
+                                    {{ batch.expiry_date|date:"Y-m-d" }}
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td><span class="badge bg-info">{{ batch.quantity }}</span></td>
+                        <td>{{ batch.sampled_quantity }}</td>
+                        <td>{{ batch.order_number }}</td>
+                        <td>
+                            <a href="{% url 'batch:batch_details' batch.id %}" class="btn btn-primary btn-sm">View</a>
+                            <a href="{% url 'batch:batch_update' batch.id %}" class="btn btn-info btn-sm">Edit</a>
+                            <a href="{% url 'batch:batch_delete' batch.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-info" role="alert">
+        <h4 class="alert-heading">No Batches Found</h4>
+        <p>There are currently no batches in the system. <a href="{% url 'batch:batch_create' %}">Create one now</a>.</p>
+    </div>
+{% endif %}
+{% endblock %}

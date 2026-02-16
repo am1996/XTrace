@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Confirm Delete Batch - XTrace{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">⚠️ Confirm Delete</h4>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-4">Are you sure you want to delete this batch? This action cannot be undone.</p>
+                
+                <div class="alert alert-warning" role="alert">
+                    <div class="row">
+                        <div class="col-sm-4 fw-bold">Batch Number:</div>
+                        <div class="col-sm-8">{{ batch.batch_number }}</div>
+                        
+                        <div class="col-sm-4 fw-bold">Product:</div>
+                        <div class="col-sm-8">{{ batch.product.name }}</div>
+                        
+                        <div class="col-sm-4 fw-bold">Quantity:</div>
+                        <div class="col-sm-8">{{ batch.quantity }}</div>
+                        
+                        <div class="col-sm-4 fw-bold">Order #:</div>
+                        <div class="col-sm-8">{{ batch.order_number }}</div>
+                    </div>
+                </div>
+
+                <form method="post" class="d-flex gap-2 justify-content-end mt-4">
+                    {% csrf_token %}
+                    <a href="{% url 'batch:batch_details' batch.id %}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-danger">Delete Batch</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

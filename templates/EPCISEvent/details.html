@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}EPCIS Event Details - XTrace{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-10">
+            <h1>EPCIS Event <code>{{ event.event_id }}</code></h1>
+            <hr>
+            
+            <div class="card mb-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Event Information</h5>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Event ID:</dt>
+                        <dd class="col-sm-9"><code>{{ event.event_id }}</code></dd>
+                        
+                        <dt class="col-sm-3">Event Type:</dt>
+                        <dd class="col-sm-9"><span class="badge bg-primary">{{ event.get_event_type_display }}</span></dd>
+                        
+                        <dt class="col-sm-3">Event Time:</dt>
+                        <dd class="col-sm-9">{{ event.event_time|date:"Y-m-d H:i:s" }}</dd>
+                        
+                        <dt class="col-sm-3">Timezone Offset:</dt>
+                        <dd class="col-sm-9">{{ event.event_timezone_offset }}</dd>
+                        
+                        <dt class="col-sm-3">Action:</dt>
+                        <dd class="col-sm-9"><span class="badge bg-info">{{ event.get_action_display }}</span></dd>
+                        
+                        <dt class="col-sm-3">Business Step:</dt>
+                        <dd class="col-sm-9">{{ event.biz_step }}</dd>
+                        
+                        <dt class="col-sm-3">Disposition:</dt>
+                        <dd class="col-sm-9">{{ event.disposition }}</dd>
+                        
+                        <dt class="col-sm-3">Read Point:</dt>
+                        <dd class="col-sm-9"><code>{{ event.read_point }}</code></dd>
+                        
+                        <dt class="col-sm-3">Business Location:</dt>
+                        <dd class="col-sm-9"><code>{{ event.biz_location }}</code></dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">EPCs (<span class="badge bg-secondary">{{ event.epc_list|length }}</span>)</h5>
+                </div>
+                <div class="card-body">
+                    {% if event.epc_list %}
+                        <ul class="list-group">
+                            {% for epc in event.epc_list|add:" "|split:" " %}
+                                {% if epc %}
+                                    <li class="list-group-item"><code>{{ epc }}</code></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted">No EPCs associated with this event.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <a href="{% url 'epcis_event:epcis_event_update' event.id %}" class="btn btn-warning">Edit</a>
+                <a href="{% url 'epcis_event:epcis_event_delete' event.id %}" class="btn btn-danger">Delete</a>
+                <a href="{% url 'epcis_event:epcis_event_list' %}" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

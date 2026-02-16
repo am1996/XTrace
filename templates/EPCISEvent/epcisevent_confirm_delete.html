@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Confirm Delete EPCIS Event - XTrace{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">⚠️ Confirm Delete</h4>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-4">Are you sure you want to delete this EPCIS event? This action cannot be undone.</p>
+                
+                <div class="alert alert-warning" role="alert">
+                    <div class="row">
+                        <div class="col-sm-5 fw-bold">Event ID:</div>
+                        <div class="col-sm-7"><code>{{ event.event_id }}</code></div>
+                        
+                        <div class="col-sm-5 fw-bold">Event Type:</div>
+                        <div class="col-sm-7">{{ event.get_event_type_display }}</div>
+                        
+                        <div class="col-sm-5 fw-bold">Event Time:</div>
+                        <div class="col-sm-7">{{ event.event_time|date:"Y-m-d H:i" }}</div>
+                        
+                        <div class="col-sm-5 fw-bold">Action:</div>
+                        <div class="col-sm-7">{{ event.get_action_display }}</div>
+                        
+                        <div class="col-sm-5 fw-bold">Business Step:</div>
+                        <div class="col-sm-7">{{ event.biz_step }}</div>
+                    </div>
+                </div>
+
+                <form method="post" class="d-flex gap-2 justify-content-end mt-4">
+                    {% csrf_token %}
+                    <a href="{% url 'epcis_event:epcis_event_details' event.id %}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-danger">Delete Event</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

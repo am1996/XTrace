@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}EPCIS Events - XTrace{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1>EPCIS Events</h1>
+    </div>
+    <div class="col-md-4 text-end">
+        <a href="{% url 'epcis_event:epcis_event_create' %}" class="btn btn-primary btn-lg">
+            <span style="font-size: 1.2rem;">➕</span> New Event
+        </a>
+    </div>
+</div>
+
+{% if epcis_events %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Event ID</th>
+                    <th>Event Type</th>
+                    <th>Event Time</th>
+                    <th>Action</th>
+                    <th>Business Step</th>
+                    <th>Disposition</th>
+                    <th>EPCs Count</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in epcis_events %}
+                    <tr>
+                        <td><code>{{ event.event_id|truncatechars:20 }}</code></td>
+                        <td><span class="badge bg-primary">{{ event.get_event_type_display }}</span></td>
+                        <td>{{ event.event_time|date:"Y-m-d H:i" }}</td>
+                        <td><span class="badge bg-info">{{ event.get_action_display }}</span></td>
+                        <td>{{ event.biz_step }}</td>
+                        <td>{{ event.disposition }}</td>
+                        <td><span class="badge bg-secondary">{{ event.epc_list|length }}</span></td>
+                        <td>
+                            <a href="{% url 'epcis_event:epcis_event_details' event.id %}" class="btn btn-primary btn-sm">View</a>
+                            <a href="{% url 'epcis_event:epcis_event_update' event.id %}" class="btn btn-info btn-sm">Edit</a>
+                            <a href="{% url 'epcis_event:epcis_event_delete' event.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center mt-4">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">First</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+{% else %}
+    <div class="alert alert-info" role="alert">
+        <h4 class="alert-heading">No Events Found</h4>
+        <p>There are currently no EPCIS events in the system. <a href="{% url 'epcis_event:epcis_event_create' %}">Create one now</a>.</p>
+    </div>
+{% endif %}
+{% endblock %}

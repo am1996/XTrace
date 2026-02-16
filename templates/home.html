@@ -1,0 +1,241 @@
+{% extends 'base.html' %}
+{% block title %}Home - XTrace{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-md-12 text-center">
+            <h1 class="display-4 fw-bold mb-4">Welcome to XTrace</h1>
+            <p class="lead text-muted mb-4">
+                A comprehensive supply chain tracking and EPCIS event management system
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Dashboard Cards -->
+    <div class="row g-4 mb-5">
+        <!-- Batch Management -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="display-6 mb-3">📦</div>
+                    <h5 class="card-title">Batch Management</h5>
+                    <p class="card-text text-muted">
+                        Create and manage product batches with serial number pools and inventory tracking.
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="{% url 'batch:batch_list' %}" class="btn btn-primary btn-sm">View Batches</a>
+                    <a href="{% url 'batch:batch_create' %}" class="btn btn-outline-primary btn-sm">New Batch</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- EPCIS Events -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="display-6 mb-3">📊</div>
+                    <h5 class="card-title">EPCIS Events</h5>
+                    <p class="card-text text-muted">
+                        Record and manage EPCIS events for complete supply chain visibility.
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="{% url 'epcis_event:epcis_event_list' %}" class="btn btn-primary btn-sm">View Events</a>
+                    <a href="{% url 'epcis_event:epcis_event_create' %}" class="btn btn-outline-primary btn-sm">New Event</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Equipment Management -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="display-6 mb-3">⚙️</div>
+                    <h5 class="card-title">Equipment</h5>
+                    <p class="card-text text-muted">
+                        Track and manage equipment resources across your facilities.
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="{% url 'equipment:equipment_list' %}" class="btn btn-primary btn-sm">View Equipment</a>
+                    <a href="{% url 'equipment:equipment_create' %}" class="btn btn-outline-primary btn-sm">New Equipment</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Serial Numbers -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="display-6 mb-3">🔢</div>
+                    <h5 class="card-title">Serial Numbers</h5>
+                    <p class="card-text text-muted">
+                        Manage and track serial numbers for products and inventory items.
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="{% url 'serialnumber:serialnumber-list' %}" class="btn btn-primary btn-sm">View Numbers</a>
+                    <a href="{% url 'serialnumber:serialnumber_create' %}" class="btn btn-outline-primary btn-sm">New Number</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Serial Number Pools -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="display-6 mb-3">🏊</div>
+                    <h5 class="card-title">Serial Number Pools</h5>
+                    <p class="card-text text-muted">
+                        Manage serial number pools and configurations for product families.
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="{% url 'serialnumberpool:list' %}" class="btn btn-primary btn-sm">View Pools</a>
+                    <a href="{% url 'serialnumberpool:create' %}" class="btn btn-outline-primary btn-sm">New Pool</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Storage Locations -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <div class="display-6 mb-3">📍</div>
+                    <h5 class="card-title">Storage Locations</h5>
+                    <p class="card-text text-muted">
+                        Define and manage storage locations for inventory management.
+                    </p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="{% url 'storage_location:storage_location_index' %}" class="btn btn-primary btn-sm">View Locations</a>
+                    <a href="{% url 'storage_location:storage_location_create' %}" class="btn btn-outline-primary btn-sm">New Location</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <h2 class="mb-4 text-center">Key Features</h2>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+            <div class="d-flex align-items-start">
+                <div class="flex-shrink-0">
+                    <div class="display-5 text-primary">✓</div>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                    <h5>Complete Batch Tracking</h5>
+                    <p class="text-muted">Track batches from manufacturing through distribution with full audit logs.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+            <div class="d-flex align-items-start">
+                <div class="flex-shrink-0">
+                    <div class="display-5 text-primary">✓</div>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                    <h5>EPCIS 2.0 Compliant</h5>
+                    <p class="text-muted">Generate fully compliant EPCIS 2.0 events in JSON-LD and XML formats.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+            <div class="d-flex align-items-start">
+                <div class="flex-shrink-0">
+                    <div class="display-5 text-primary">✓</div>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                    <h5>Equipment Management</h5>
+                    <p class="text-muted">Monitor equipment status and maintain detailed records of all devices.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+            <div class="d-flex align-items-start">
+                <div class="flex-shrink-0">
+                    <div class="display-5 text-primary">✓</div>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                    <h5>Serial Number Management</h5>
+                    <p class="text-muted">Generate, track, and manage serial numbers at scale for all products.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+            <div class="d-flex align-items-start">
+                <div class="flex-shrink-0">
+                    <div class="display-5 text-primary">✓</div>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                    <h5>Storage Management</h5>
+                    <p class="text-muted">Organize inventory across multiple storage locations with flexible tracking.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-3">
+            <div class="d-flex align-items-start">
+                <div class="flex-shrink-0">
+                    <div class="display-5 text-primary">✓</div>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                    <h5>Audit Logging</h5>
+                    <p class="text-muted">Full audit trail of all changes for compliance and traceability.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats Section -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Quick Access</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="{% url 'batch:batch_list' %}" class="btn btn-outline-primary btn-block w-100 mb-2">All Batches</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="{% url 'epcis_event:epcis_event_list' %}" class="btn btn-outline-primary btn-block w-100 mb-2">All EPCIS Events</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="{% url 'equipment:equipment_list' %}" class="btn btn-outline-primary btn-block w-100 mb-2">All Equipment</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .btn-block {
+        display: block;
+    }
+
+    .display-5 {
+        font-size: 3rem;
+    }
+</style>
+{% endblock %}
