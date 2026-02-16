@@ -8,53 +8,53 @@
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #0d6efd;
-            --secondary-color: #6c757d;
-            --success-color: #198754;
-            --danger-color: #dc3545;
-            --warning-color: #ffc107;
-            --info-color: #0dcaf0;
+            --primary-color: #1a1a1a;
+            --secondary-color: #495057;
+            --success-color: #2b8a3e;
+            --danger-color: #c92a2a;
+            --warning-color: #e67700;
+            --info-color: #1864ab;
             --bg-primary: #f8f9fa;
             --bg-secondary: #ffffff;
-            --bg-tertiary: #f0f0f0;
-            --text-primary: #333333;
-            --text-secondary: #6c757d;
-            --text-light: #999999;
-            --border-color: #e0e0e0;
+            --bg-tertiary: #f1f3f5;
+            --text-primary: #212529;
+            --text-secondary: #495057;
+            --text-light: #868e96;
+            --border-color: #dee2e6;
             --card-bg: #ffffff;
             --input-bg: #ffffff;
-            --input-border: #e0e0e0;
-            --link-color: #0d6efd;
-            --link-hover: #0b5ed7;
-            --alert-bg: #f8d7da;
-            --alert-text: #842029;
-            --badge-bg: #198754;
+            --input-border: #ced4da;
+            --link-color: #1a1a1a;
+            --link-hover: #000000;
+            --alert-bg: #fff5f5;
+            --alert-text: #c92a2a;
+            --badge-bg: #1a1a1a;
             --badge-text: #ffffff;
-            --table-hover: #f8f9fa;
-            --footer-bg: #667eea;
-            --footer-text: #ffffff;
+            --table-hover: #f1f3f5;
+            --footer-bg: #f8f9fa;
+            --footer-text: #212529;
         }
 
         html[data-theme="dark"] {
-            --bg-primary: #0f0f0f;
-            --bg-secondary: #1a1a1a;
-            --bg-tertiary: #2a2a2a;
-            --text-primary: #e8e8e8;
-            --text-secondary: #b0b0b0;
-            --text-light: #808080;
-            --border-color: #333333;
-            --card-bg: #1a1a1a;
-            --input-bg: #252525;
-            --input-border: #404040;
-            --link-color: #6ba3ff;
-            --link-hover: #85b8ff;
-            --alert-bg: #3d2c2e;
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #212529;
+            --bg-tertiary: #343a40;
+            --text-primary: #f8f9fa;
+            --text-secondary: #e9ecef;
+            --text-light: #dee2e6;
+            --border-color: #495057;
+            --card-bg: #212529;
+            --input-bg: #343a40;
+            --input-border: #495057;
+            --link-color: #f8f9fa;
+            --link-hover: #ffffff;
+            --alert-bg: #2b1b1d;
             --alert-text: #f8a8aa;
-            --badge-bg: #2d5a3d;
-            --badge-text: #a8e8c8;
-            --table-hover: #252525;
-            --footer-bg: #1a1a1a;
-            --footer-text: #e8e8e8;
+            --badge-bg: #f8f9fa;
+            --badge-text: #1a1a1a;
+            --table-hover: #343a40;
+            --footer-bg: #212529;
+            --footer-text: #f8f9fa;
         }
 
         * {
@@ -72,7 +72,7 @@
 
         /* Navigation */
         .navbar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%);
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
@@ -88,15 +88,15 @@
         }
 
         .nav-link:hover {
-            color: #fff !important;
-            text-shadow: 0 0 8px rgba(255,255,255,0.5);
+            color: var(--primary-color) !important;
+            text-shadow: none;
         }
 
         /* Theme Toggle Button */
         .theme-toggle {
-            background: rgba(255,255,255,0.2);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -110,8 +110,8 @@
         }
 
         .theme-toggle:hover {
-            background: rgba(255,255,255,0.3);
-            box-shadow: 0 0 8px rgba(255,255,255,0.5);
+            background: var(--bg-tertiary);
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
         }
 
         /* Main Container */
@@ -155,11 +155,12 @@
         }
 
         .card-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            color: var(--text-primary);
             border-radius: 12px 12px 0 0;
             font-weight: 600;
             border: none;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .card-body {
@@ -182,13 +183,13 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
             color: white;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 6px 16px rgba(26, 26, 26, 0.4);
         }
 
         .btn-secondary {
@@ -261,7 +262,7 @@
 
         .form-control:focus, .form-select:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            box-shadow: 0 0 0 0.2rem rgba(77, 171, 247, 0.25);
             outline: none;
             background-color: var(--input-bg);
             color: var(--text-primary);
@@ -287,8 +288,9 @@
         }
 
         .table thead {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
         }
 
         .table th {
@@ -438,11 +440,12 @@
 
         /* Footer */
         .footer {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             color: var(--footer-text);
             text-align: center;
             padding: 2rem;
             margin-top: 4rem;
+            border-top: 1px solid var(--border-color);
         }
 
         /* Utility Classes */
