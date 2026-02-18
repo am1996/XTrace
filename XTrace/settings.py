@@ -73,6 +73,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries': {
+                'form_tags': 'XTrace.templatetags.form_tags',
+            },
         },
     },
 ]
@@ -129,6 +132,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'staticfiles']
 STATIC_ROOT = BASE_DIR / 'collected_static'
+
+# Login URL
+LOGIN_URL = '/web/user/login/'
+LOGIN_REDIRECT_URL = '/web/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

@@ -23,7 +23,8 @@ class Equipment(models.Model):
         verbose_name_plural = "Equipments"
 
     def delete(self, **kwargs):
-        self.deleted_at = datetime.datetime.now()
+        from django.utils import timezone
+        self.deleted_at = timezone.now()
         self.save()
         return True
     
