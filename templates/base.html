@@ -175,7 +175,7 @@
         }
 
         .card-header {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            background: var(--bg-primary) !important;
             color: var(--text-primary);
             border-radius: 12px 12px 0 0;
             font-weight: 600;
@@ -554,7 +554,6 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'user:logout' %}">Logout</a></li>
                     {% else %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'user:login' %}">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'user:register' %}">Register</a></li>
                     {% endif %}
                     <li class="nav-item">
                         <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">🌙</button>

@@ -1,14 +1,13 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, LogoutView, RedirectURLMixin
+from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout as auth_logout
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required  
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
-from urllib.parse import urlsplit
 # Create your views here.
 
 class UserDashboard(LoginRequiredMixin, DetailView):
@@ -39,13 +38,6 @@ class UserLogin(LoginView):
         context['title'] = 'Login'
         return context
 
-class UserLogout(LogoutView):
-    next_page = 'user:user_login'
-    
-    def get(self, request, *args, **kwargs):
-        return self.post(request, *args, **kwargs)
-
-
 def logout_view(request):
     """Simple logout view that works with GET and POST and redirects to login."""
     if request.user.is_authenticated:
@@ -53,22 +45,26 @@ def logout_view(request):
     return redirect(reverse_lazy('user:login'))
 
 
-class UserRegister(CreateView,RedirectURLMixin):
+class UserRegister(LoginRequiredMixin, CreateView):
     model = User
-    redirect_authenticated_user = True
     form_class = UserCreationForm
     template_name = 'User/register.html'
-    success_url = reverse_lazy('user:user_login')
+    success_url = reverse_lazy('user:login')
+    
     def dispatch(self, request, *args, **kwargs):
-        if self.redirect_authenticated_user and self.request.user.is_authenticated:
-            redirect_to = "/"
-            if redirect_to == self.request.path:
-                raise ValueError(
-                    "Redirection loop for authenticated user detected. Check that "
-                    "your LOGIN_REDIRECT_URL doesn't point to a login page."
-                )
-            return HttpResponseRedirect(redirect_to)
+        # Only Admin or SuperUser group can register users
+        if not request.user.is_superuser and not request.user.groups.filter(name__in=['Admin', 'SuperUser']).exists():
+            from django.http import HttpResponseForbidden
+            return HttpResponseForbidden('Access denied. Admin or SuperUser group required to register users.')
         return super().dispatch(request, *args, **kwargs)
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        # Add new users to Operator group by default
+        from django.contrib.auth.models import Group
+        operator_group = Group.objects.get(name='Operator')
+        self.object.groups.add(operator_group)
+        return response
 
 class UserDetails(LoginRequiredMixin, DetailView):
     model = User

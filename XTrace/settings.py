@@ -57,7 +57,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'auditlog.middleware.AuditlogMiddleware',
-
+    'XTrace.middleware.AdminAccessMiddleware',
 ]
 
 ROOT_URLCONF = 'XTrace.urls'
