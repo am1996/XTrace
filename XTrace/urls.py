@@ -21,6 +21,8 @@ urlpatterns = [
     path('web/serialnumberpool/', include('SerialNumberPool.urls', namespace='serialnumberpool')),
     path('web/epcis-events/', include('EPCISEvent.urls', namespace='epcis_event')),
     # API
+    path('api/', include('XTrace.api_urls')),
+    path('api-auth/', include('rest_framework.urls')),
 ]
 
 # Serve static files during development
