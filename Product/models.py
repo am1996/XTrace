@@ -12,13 +12,25 @@ class Product(models.Model):
     secondary_gtin = models.CharField(max_length=14, blank=True, null=True, verbose_name=_("Secondary GTIN"))
     tertiary_gtin = models.CharField(max_length=14, blank=True, null=True, verbose_name=_("Tertiary GTIN"))
     equipment = models.ForeignKey("Equipment.Equipment", on_delete=models.CASCADE, verbose_name=_("Equipment"), related_name="products", null=True, blank=True)
-    manufactured_at = models.DateField(verbose_name=_("Manufactured At")) 
-    shelf_life_days = models.PositiveIntegerField()
-    unit = models.CharField(max_length=50, verbose_name=_("Unit of Measurement"),choices=[
-        ("y", _("Year")),
-        ("m", _("Month")),
-        ("d", _("Day"))
-    ])
+    manufactured_at = models.DateField(verbose_name=_("Manufactured At"))
+    shelf_life = models.PositiveIntegerField(verbose_name=_("Shelf Life"))
+    shelf_life_unit = models.CharField(
+        max_length=1,
+        verbose_name=_("Shelf Life Unit"),
+        choices=[
+            ("y", _("Year")),
+            ("m", _("Month")),
+            ("d", _("Day")),
+        ]
+    )
+
+    @property
+    def shelf_life_in_days(self):
+        if self.shelf_life_unit == 'y':
+            return self.shelf_life * 365
+        if self.shelf_life_unit == 'm':
+            return self.shelf_life * 30
+        return self.shelf_life
     status = models.BooleanField(default=False, verbose_name=_("Status"))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
